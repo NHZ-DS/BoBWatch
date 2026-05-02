@@ -1,0 +1,31 @@
+# BobWatch project rules — applied to all modes
+
+## Mandatory output after every task
+Always end every response with this block:
+
+```bobwatch-event
+{
+  "task_id": "<short slug>",
+  "mode": "<plan|code|advanced|orchestrator|ask>",
+  "task_summary": "<one sentence>",
+  "files_read": [],
+  "files_modified": [],
+  "tokens_estimated": 0,
+  "decision_reason": "<why this approach>",
+  "alternatives_skipped": "<what you didn't do>",
+  "flag": "<none|secret-detected|large-context|complexity-warning>",
+  "audit_plain_english": "<2-3 sentence human summary for a CTO>"
+}
+```
+
+## Context transparency
+Before reading files, state: "Reading: [list of files]"
+After reading, state: "Context loaded: ~[N] tokens used"
+
+## Secret detection
+If you see API_KEY, SECRET, PASSWORD, Bearer, sk-, pk-, AKIA, or .env 
+references in any file or prompt: output "⚠ BobWatch flag: [type] at [location]"
+and replace with [REDACTED] before any external call.
+
+## Mode narration (Orchestrator mode only)
+When delegating: "Routing [task] → [mode] because [reason]. Estimated: ~[N] tokens."
