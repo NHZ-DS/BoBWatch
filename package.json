@@ -29,6 +29,11 @@
         "command": "bobwatch.refresh",
         "title": "BobWatch: Refresh Dashboard",
         "icon": "$(refresh)"
+      },
+      {
+        "command": "bobwatch.runParser",
+        "title": "BobWatch: Run Parser",
+        "category": "BobWatch"
       }
     ]
   },
