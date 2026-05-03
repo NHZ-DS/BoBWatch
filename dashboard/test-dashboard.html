@@ -7,27 +7,65 @@
   <style>
     body {
       margin: 0;
-      padding: 20px;
+      padding: 0;
       background: #1e1e1e;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     iframe {
       width: 100%;
-      height: calc(100vh - 40px);
-      border: 1px solid #333;
-      border-radius: 4px;
+      height: 100vh;
+      border: none;
+    }
+    .info-banner {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+      z-index: 1000;
+      font-size: 14px;
+      max-width: 300px;
+      animation: slideIn 0.5s ease-out;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    .info-banner h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+    }
+    .info-banner p {
+      margin: 0;
+      font-size: 12px;
+      opacity: 0.9;
     }
   </style>
 </head>
 <body>
+  <div class="info-banner">
+    <h3>🎨 New Dashboard Design!</h3>
+    <p>Modern, interactive UI with animations and better data visualization</p>
+  </div>
+  
   <iframe id="dashboard" src="index.html"></iframe>
   
   <script>
-    // Mock data matching the parser output format
+    // Enhanced mock data with more realistic sessions
     const mockData = {
       "sessions": [
         {
-          "file": "test_session_001.md",
-          "timestamp": "2026-05-03T06:11:29.214Z",
+          "file": "session_001_planning.md",
+          "timestamp": "2026-05-03T06:00:00.000Z",
           "task_name": "Create BobWatch Technical Plan",
           "context_length": 15234,
           "tokens": 15234,
@@ -50,8 +88,8 @@
           "event_count": 1
         },
         {
-          "file": "test_session_002.md",
-          "timestamp": "2026-05-03T06:15:00.000Z",
+          "file": "session_002_parser.md",
+          "timestamp": "2026-05-03T07:00:00.000Z",
           "task_name": "Implement Parser",
           "context_length": 8456,
           "tokens": 8456,
@@ -74,8 +112,8 @@
           "event_count": 1
         },
         {
-          "file": "test_session_003.md",
-          "timestamp": "2026-05-03T06:28:00.000Z",
+          "file": "session_003_dashboard.md",
+          "timestamp": "2026-05-03T08:00:00.000Z",
           "task_name": "Build Dashboard",
           "context_length": 12000,
           "tokens": 12000,
@@ -96,15 +134,111 @@
             }
           ],
           "event_count": 1
+        },
+        {
+          "file": "session_004_extension.md",
+          "timestamp": "2026-05-03T09:00:00.000Z",
+          "task_name": "VS Code Extension",
+          "context_length": 10500,
+          "tokens": 10500,
+          "api_cost": 0.018,
+          "cache_hits": 8000,
+          "events": [
+            {
+              "task_id": "build-extension",
+              "mode": "code",
+              "task_summary": "Implemented VS Code extension with file watcher and webview provider",
+              "files_read": ["package.json", "dashboard/index.html"],
+              "files_modified": ["extension/extension.js", "package.json"],
+              "tokens_estimated": 10000,
+              "decision_reason": "Compact implementation under 80 lines using BobWatchViewProvider class pattern",
+              "alternatives_skipped": "Separate webview HTML generation (too verbose)",
+              "flag": "none",
+              "audit_plain_english": "Created VS Code extension that loads dashboard in sidebar, watches bob_sessions/ for changes, and auto-updates in real-time. File watcher triggers parser automatically."
+            }
+          ],
+          "event_count": 1
+        },
+        {
+          "file": "session_005_api.md",
+          "timestamp": "2026-05-03T10:00:00.000Z",
+          "task_name": "watsonx API",
+          "context_length": 7800,
+          "tokens": 7800,
+          "api_cost": 0.012,
+          "cache_hits": 5500,
+          "events": [
+            {
+              "task_id": "build-watsonx-api",
+              "mode": "advanced",
+              "task_summary": "Built watsonx Orchestrate API integration with REST endpoints",
+              "files_read": [".bobwatch/session-log.json"],
+              "files_modified": ["watsonx-orchestrate/api-server.js", "watsonx-orchestrate/README.md"],
+              "tokens_estimated": 7000,
+              "decision_reason": "Minimal REST API using only Node.js built-in modules to meet zero-dependency requirement",
+              "alternatives_skipped": "Express framework (external dependency)",
+              "flag": "none",
+              "audit_plain_english": "Implemented REST API for watsonx Orchestrate integration. Provides 4 endpoints for querying Bob's governance data. Includes OpenAPI spec for easy import."
+            }
+          ],
+          "event_count": 1
+        },
+        {
+          "file": "session_006_testing.md",
+          "timestamp": "2026-05-03T11:00:00.000Z",
+          "task_name": "Testing Guides",
+          "context_length": 5200,
+          "tokens": 5200,
+          "api_cost": 0.008,
+          "cache_hits": 3800,
+          "events": [
+            {
+              "task_id": "create-testing-guides",
+              "mode": "code",
+              "task_summary": "Created beginner-friendly testing guides for non-technical users",
+              "files_read": [".bobwatch/session-log.json"],
+              "files_modified": ["TESTING.md", "QUICK-TEST.html"],
+              "tokens_estimated": 5000,
+              "decision_reason": "Two complementary approaches: detailed CLI guide and visual one-click testing page",
+              "alternatives_skipped": "Command-line only testing (too technical for beginners)",
+              "flag": "none",
+              "audit_plain_english": "Created comprehensive testing guides. TESTING.md provides step-by-step CLI instructions. QUICK-TEST.html offers interactive web-based testing with visual feedback."
+            }
+          ],
+          "event_count": 1
+        },
+        {
+          "file": "session_007_redesign.md",
+          "timestamp": "2026-05-03T12:00:00.000Z",
+          "task_name": "Dashboard Redesign",
+          "context_length": 9500,
+          "tokens": 9500,
+          "api_cost": 0.016,
+          "cache_hits": 7200,
+          "events": [
+            {
+              "task_id": "redesign-dashboard",
+              "mode": "advanced",
+              "task_summary": "Completely redesigned dashboard with modern, interactive UI and animations",
+              "files_read": ["dashboard/index.html", ".bobwatch/session-log.json"],
+              "files_modified": ["dashboard/index.html", "dashboard/test-dashboard.html"],
+              "tokens_estimated": 9000,
+              "decision_reason": "Modern gradient design with smooth animations, hover effects, and better data visualization for improved user experience",
+              "alternatives_skipped": "Minimal design (less engaging), external CSS framework (adds dependencies)",
+              "flag": "none",
+              "audit_plain_english": "Redesigned dashboard with gradient headers, animated metric cards, interactive hover effects, smooth transitions, and modern color scheme. Improved empty states and better data handling for sessions without events."
+            }
+          ],
+          "event_count": 1
         }
       ],
       "summary": {
-        "total_sessions": 3,
-        "total_tokens": 35690,
-        "total_cost": 0.06,
-        "total_events": 3
+        "total_sessions": 7,
+        "total_tokens": 68690,
+        "total_cost": 0.096,
+        "total_events": 7
       },
-      "generated_at": "2026-05-03T06:28:00.000Z"
+      "generated_at": "2026-05-03T12:00:00.000Z"
     };
 
     // Inject mock data into iframe

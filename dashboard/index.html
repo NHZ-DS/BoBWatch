@@ -13,399 +13,668 @@
     }
 
     body {
-      font-family: var(--vscode-font-family);
-      font-size: var(--vscode-font-size);
-      color: var(--vscode-foreground);
-      background: var(--vscode-editor-background);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-size: 13px;
+      color: var(--vscode-foreground, #cccccc);
+      background: var(--vscode-editor-background, #1e1e1e);
       padding: 16px;
-      line-height: 1.5;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    /* Header */
+    /* Header with gradient */
     .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px 24px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+      animation: slideDown 0.5s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 16px;
-      background: var(--vscode-sideBar-background);
-      border: 1px solid var(--vscode-panel-border);
-      border-radius: 4px;
-      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .header h1 {
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 28px;
+      font-weight: 700;
+      color: white;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
-    .header-info {
+    .header-stats {
       display: flex;
-      gap: 16px;
-      align-items: center;
+      gap: 24px;
+      color: white;
       font-size: 12px;
-      color: var(--vscode-descriptionForeground);
     }
 
-    .badge {
-      padding: 4px 8px;
-      border-radius: 3px;
+    .header-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .header-stat-label {
+      opacity: 0.9;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .header-stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      animation: pulse 2s infinite;
     }
 
-    .badge-live {
-      background: var(--vscode-testing-iconPassed);
-      color: var(--vscode-editor-background);
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
     }
 
-    .badge-paused {
-      background: var(--vscode-testing-iconQueued);
-      color: var(--vscode-editor-background);
+    .status-live {
+      background: rgba(76, 175, 80, 0.2);
+      color: #4caf50;
+      border: 1px solid #4caf50;
     }
 
-    /* Metric Cards */
-    .metrics {
+    /* Metrics Grid */
+    .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 16px;
+      margin-bottom: 24px;
+      animation: fadeIn 0.6s ease-out 0.2s both;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .metric-card {
-      background: var(--vscode-sideBar-background);
-      border: 1px solid var(--vscode-panel-border);
-      border-radius: 4px;
-      padding: 16px;
+      background: var(--vscode-sideBar-background, #252526);
+      border: 1px solid var(--vscode-panel-border, #3e3e42);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .metric-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      border-color: #667eea;
+    }
+
+    .metric-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .metric-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
     }
 
     .metric-label {
       font-size: 11px;
-      color: var(--vscode-descriptionForeground);
+      color: var(--vscode-descriptionForeground, #858585);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .metric-value {
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--vscode-foreground);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--vscode-foreground, #cccccc);
+      margin-bottom: 8px;
     }
 
     .metric-change {
       font-size: 11px;
-      margin-top: 4px;
-      color: var(--vscode-descriptionForeground);
+      color: var(--vscode-descriptionForeground, #858585);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .metric-change.positive {
+      color: #4caf50;
     }
 
     /* Panels */
-    .panel {
-      background: var(--vscode-sideBar-background);
-      border: 1px solid var(--vscode-panel-border);
-      border-radius: 4px;
-      padding: 16px;
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 16px;
       margin-bottom: 16px;
     }
 
+    .panel {
+      background: var(--vscode-sideBar-background, #252526);
+      border: 1px solid var(--vscode-panel-border, #3e3e42);
+      border-radius: 12px;
+      padding: 20px;
+      animation: fadeIn 0.6s ease-out 0.4s both;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--vscode-panel-border, #3e3e42);
+    }
+
     .panel-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: var(--vscode-foreground);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--vscode-foreground, #cccccc);
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
+    .panel-action {
+      font-size: 11px;
+      color: #667eea;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .panel-action:hover {
+      color: #764ba2;
+    }
+
     /* Mode Breakdown */
+    .mode-visualization {
+      margin-bottom: 20px;
+    }
+
     .mode-bar {
       display: flex;
-      height: 32px;
-      border-radius: 4px;
+      height: 40px;
+      border-radius: 8px;
       overflow: hidden;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     .mode-segment {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: white;
-      transition: opacity 0.2s;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
     }
 
     .mode-segment:hover {
-      opacity: 0.8;
+      filter: brightness(1.2);
+      transform: scaleY(1.1);
+      z-index: 1;
     }
 
-    .mode-code { background: #007acc; }
-    .mode-plan { background: #68217a; }
-    .mode-advanced { background: #ff6b6b; }
-    .mode-orchestrator { background: #ffa500; }
-    .mode-ask { background: #4caf50; }
+    .mode-code { background: linear-gradient(135deg, #007acc, #005a9e); }
+    .mode-plan { background: linear-gradient(135deg, #68217a, #4a1558); }
+    .mode-advanced { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
+    .mode-orchestrator { background: linear-gradient(135deg, #ffa500, #ff8c00); }
+    .mode-ask { background: linear-gradient(135deg, #4caf50, #388e3c); }
 
     .mode-legend {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 12px;
-      font-size: 12px;
     }
 
     .mode-legend-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 6px;
+      background: var(--vscode-editor-background, #1e1e1e);
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+
+    .mode-legend-item:hover {
+      background: var(--vscode-list-hoverBackground, #2a2d2e);
     }
 
     .mode-color {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .mode-legend-text {
+      font-size: 11px;
+      flex: 1;
+    }
+
+    .mode-legend-count {
+      font-weight: 700;
+      color: #667eea;
     }
 
     /* Audit Log */
     .audit-log {
-      max-height: 400px;
+      max-height: 500px;
       overflow-y: auto;
+      padding-right: 8px;
     }
 
     .audit-entry {
-      padding: 12px;
-      border-left: 3px solid var(--vscode-focusBorder);
-      background: var(--vscode-editor-background);
-      margin-bottom: 8px;
-      border-radius: 0 4px 4px 0;
+      padding: 16px;
+      border-left: 3px solid #667eea;
+      background: var(--vscode-editor-background, #1e1e1e);
+      margin-bottom: 12px;
+      border-radius: 0 8px 8px 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    .audit-header {
+    .audit-entry:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-left-width: 4px;
+    }
+
+    .audit-entry-header {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
     .mode-badge {
-      padding: 2px 6px;
-      border-radius: 3px;
+      padding: 4px 10px;
+      border-radius: 12px;
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 700;
       color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .audit-summary {
-      font-size: 13px;
-      margin-bottom: 6px;
-      color: var(--vscode-foreground);
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: var(--vscode-foreground, #cccccc);
+      font-weight: 500;
     }
 
     .audit-meta {
       display: flex;
       gap: 16px;
       font-size: 11px;
-      color: var(--vscode-descriptionForeground);
+      color: var(--vscode-descriptionForeground, #858585);
+      flex-wrap: wrap;
+    }
+
+    .audit-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .audit-reason {
       font-size: 12px;
-      color: var(--vscode-descriptionForeground);
-      margin-top: 8px;
+      color: var(--vscode-descriptionForeground, #858585);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--vscode-panel-border, #3e3e42);
       font-style: italic;
     }
 
     .flag-badge {
-      padding: 2px 6px;
-      border-radius: 3px;
+      padding: 4px 10px;
+      border-radius: 12px;
       font-size: 10px;
-      font-weight: 600;
-      background: var(--vscode-inputValidation-warningBackground);
-      color: var(--vscode-inputValidation-warningForeground);
-      border: 1px solid var(--vscode-inputValidation-warningBorder);
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
     }
 
     /* Cost Chart */
     .cost-chart {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 12px;
     }
 
     .cost-bar-container {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      padding: 8px;
+      border-radius: 6px;
+      background: var(--vscode-editor-background, #1e1e1e);
+      transition: all 0.3s ease;
+    }
+
+    .cost-bar-container:hover {
+      background: var(--vscode-list-hoverBackground, #2a2d2e);
+      transform: translateX(4px);
     }
 
     .cost-label {
-      min-width: 100px;
-      font-size: 11px;
-      color: var(--vscode-descriptionForeground);
-      text-overflow: ellipsis;
+      min-width: 120px;
+      font-size: 12px;
+      color: var(--vscode-foreground, #cccccc);
+      font-weight: 500;
       overflow: hidden;
+      text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .cost-bar-wrapper {
       flex: 1;
-      height: 24px;
-      background: var(--vscode-editor-background);
-      border-radius: 3px;
+      height: 32px;
+      background: var(--vscode-input-background, #3c3c3c);
+      border-radius: 6px;
       overflow: hidden;
       position: relative;
     }
 
     .cost-bar {
       height: 100%;
-      background: linear-gradient(90deg, #007acc, #005a9e);
-      transition: width 0.3s ease;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transition: width 0.6s ease-out;
       display: flex;
       align-items: center;
-      padding: 0 8px;
-      font-size: 10px;
+      padding: 0 12px;
+      font-size: 11px;
       color: white;
-      font-weight: 600;
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cost-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
 
     .cost-value {
-      min-width: 60px;
+      min-width: 80px;
       text-align: right;
-      font-size: 11px;
-      color: var(--vscode-foreground);
+      font-size: 12px;
+      color: var(--vscode-foreground, #cccccc);
+      font-weight: 700;
     }
 
-    /* Prompt Diff */
-    .prompt-diff {
-      background: var(--vscode-editor-background);
-      padding: 16px;
-      border-radius: 4px;
-      border-left: 4px solid var(--vscode-focusBorder);
+    /* Latest Summary */
+    .summary-card {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+      animation: fadeIn 0.6s ease-out 0.6s both;
     }
 
-    .prompt-diff-label {
+    .summary-label {
       font-size: 11px;
-      color: var(--vscode-descriptionForeground);
+      color: var(--vscode-descriptionForeground, #858585);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
+      font-weight: 600;
     }
 
-    .prompt-diff-content {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--vscode-foreground);
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
-      height: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--vscode-scrollbarSlider-background);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--vscode-scrollbarSlider-hoverBackground);
-      border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--vscode-scrollbarSlider-activeBackground);
+    .summary-content {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--vscode-foreground, #cccccc);
     }
 
     /* Empty State */
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
-      color: var(--vscode-descriptionForeground);
+      padding: 60px 20px;
+      color: var(--vscode-descriptionForeground, #858585);
     }
 
-    .empty-state-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
       opacity: 0.5;
+      animation: float 3s ease-in-out infinite;
     }
 
-    .empty-state-text {
-      font-size: 14px;
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .empty-text {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .empty-hint {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--vscode-scrollbarSlider-background, #424242);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--vscode-scrollbarSlider-hoverBackground, #4e4e4e);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--vscode-scrollbarSlider-activeBackground, #646464);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
   <!-- Header -->
   <div class="header">
-    <h1>🔍 BobWatch</h1>
-    <div class="header-info">
-      <span id="session-duration">Session: --</span>
-      <span class="badge badge-live" id="status-badge">Live</span>
+    <div class="header-content">
+      <h1>
+        <span>🔍</span>
+        <span>BobWatch</span>
+      </h1>
+      <div class="header-stats">
+        <div class="header-stat">
+          <span class="header-stat-label">Session Duration</span>
+          <span class="header-stat-value" id="session-duration">--</span>
+        </div>
+        <div class="header-stat">
+          <span class="status-badge status-live" id="status-badge">● Live</span>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Metric Cards -->
-  <div class="metrics">
+  <!-- Metrics Grid -->
+  <div class="metrics-grid">
     <div class="metric-card">
+      <span class="metric-icon">🎯</span>
       <div class="metric-label">Total Tokens</div>
       <div class="metric-value" id="total-tokens">0</div>
       <div class="metric-change" id="tokens-change">--</div>
     </div>
     <div class="metric-card">
+      <span class="metric-icon">💰</span>
       <div class="metric-label">API Cost</div>
       <div class="metric-value" id="api-cost">$0.00</div>
       <div class="metric-change" id="cost-change">--</div>
     </div>
     <div class="metric-card">
+      <span class="metric-icon">📁</span>
       <div class="metric-label">Files Touched</div>
       <div class="metric-value" id="files-touched">0</div>
       <div class="metric-change" id="files-change">--</div>
     </div>
     <div class="metric-card">
+      <span class="metric-icon">⚠️</span>
       <div class="metric-label">Flags Raised</div>
       <div class="metric-value" id="flags-raised">0</div>
       <div class="metric-change" id="flags-change">--</div>
     </div>
   </div>
 
-  <!-- Mode Breakdown -->
-  <div class="panel">
-    <div class="panel-title">📊 Mode Breakdown</div>
-    <div class="mode-bar" id="mode-bar"></div>
-    <div class="mode-legend" id="mode-legend"></div>
+  <!-- Dashboard Grid -->
+  <div class="dashboard-grid">
+    <!-- Mode Breakdown -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📊</span>
+          <span>Mode Breakdown</span>
+        </div>
+      </div>
+      <div class="mode-visualization">
+        <div class="mode-bar" id="mode-bar"></div>
+        <div class="mode-legend" id="mode-legend"></div>
+      </div>
+    </div>
+
+    <!-- Cost per Task -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>💸</span>
+          <span>Cost per Task</span>
+        </div>
+      </div>
+      <div class="cost-chart" id="cost-chart"></div>
+    </div>
   </div>
 
   <!-- Audit Log -->
   <div class="panel">
-    <div class="panel-title">📋 Audit Log</div>
+    <div class="panel-header">
+      <div class="panel-title">
+        <span>📋</span>
+        <span>Audit Log</span>
+      </div>
+      <a href="#" class="panel-action" onclick="refreshData(); return false;">Refresh</a>
+    </div>
     <div class="audit-log" id="audit-log"></div>
   </div>
 
-  <!-- Cost per Task -->
-  <div class="panel">
-    <div class="panel-title">💰 Cost per Task</div>
-    <div class="cost-chart" id="cost-chart"></div>
-  </div>
-
-  <!-- Prompt Diff -->
-  <div class="panel">
-    <div class="panel-title">💬 Latest Audit Summary</div>
-    <div class="prompt-diff">
-      <div class="prompt-diff-label">Plain English Summary</div>
-      <div class="prompt-diff-content" id="prompt-diff-content">
-        No audit entries yet...
-      </div>
+  <!-- Latest Summary -->
+  <div class="summary-card">
+    <div class="summary-label">💬 Latest Audit Summary</div>
+    <div class="summary-content" id="summary-content">
+      No audit entries yet...
     </div>
   </div>
 
   <script>
-    // Data will be injected by extension as window.__BOBWATCH_DATA__
     let data = window.__BOBWATCH_DATA__ || { sessions: [], summary: {} };
 
-    // Mode colors mapping
     const MODE_COLORS = {
       code: '#007acc',
       plan: '#68217a',
@@ -414,7 +683,6 @@
       ask: '#4caf50'
     };
 
-    // Initialize dashboard
     function init() {
       if (!data.sessions || data.sessions.length === 0) {
         showEmptyState();
@@ -425,34 +693,29 @@
       renderModeBreakdown();
       renderAuditLog();
       renderCostChart();
-      renderPromptDiff();
+      renderSummary();
       updateSessionDuration();
     }
 
-    // Show empty state
     function showEmptyState() {
-      const auditLog = document.getElementById('audit-log');
-      auditLog.innerHTML = `
+      document.getElementById('audit-log').innerHTML = `
         <div class="empty-state">
-          <div class="empty-state-icon">📭</div>
-          <div class="empty-state-text">No sessions found. Add markdown files to bob_sessions/ directory.</div>
+          <div class="empty-icon">📭</div>
+          <div class="empty-text">No sessions found</div>
+          <div class="empty-hint">Add markdown files to bob_sessions/ directory</div>
         </div>
       `;
     }
 
-    // Render metric cards
     function renderMetrics() {
       const summary = data.summary || {};
       
-      // Total tokens
       document.getElementById('total-tokens').textContent = 
         (summary.total_tokens || 0).toLocaleString();
       
-      // API cost
       document.getElementById('api-cost').textContent = 
         '$' + (summary.total_cost || 0).toFixed(2);
       
-      // Files touched
       const filesSet = new Set();
       data.sessions.forEach(session => {
         session.events?.forEach(event => {
@@ -461,7 +724,6 @@
       });
       document.getElementById('files-touched').textContent = filesSet.size;
       
-      // Flags raised
       let flagCount = 0;
       data.sessions.forEach(session => {
         session.events?.forEach(event => {
@@ -470,7 +732,6 @@
       });
       document.getElementById('flags-raised').textContent = flagCount;
       
-      // Update change indicators
       document.getElementById('tokens-change').textContent = 
         `${data.sessions.length} sessions`;
       document.getElementById('cost-change').textContent = 
@@ -479,14 +740,14 @@
         `${data.sessions.length} tasks`;
       document.getElementById('flags-change').textContent = 
         flagCount > 0 ? '⚠️ Review needed' : '✓ All clear';
+      document.getElementById('flags-change').className = 
+        'metric-change ' + (flagCount > 0 ? '' : 'positive');
     }
 
-    // Render mode breakdown
     function renderModeBreakdown() {
       const modeBar = document.getElementById('mode-bar');
       const modeLegend = document.getElementById('mode-legend');
       
-      // Count events by mode
       const modeCounts = {};
       let totalEvents = 0;
       
@@ -499,11 +760,11 @@
       });
       
       if (totalEvents === 0) {
-        modeBar.innerHTML = '<div style="padding: 8px; text-align: center; color: var(--vscode-descriptionForeground);">No mode data available</div>';
+        modeBar.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--vscode-descriptionForeground);">No mode data available</div>';
+        modeLegend.innerHTML = '';
         return;
       }
       
-      // Render bar segments
       modeBar.innerHTML = '';
       Object.entries(modeCounts).forEach(([mode, count]) => {
         const percentage = (count / totalEvents) * 100;
@@ -515,7 +776,6 @@
         modeBar.appendChild(segment);
       });
       
-      // Render legend
       modeLegend.innerHTML = '';
       Object.entries(modeCounts).forEach(([mode, count]) => {
         const percentage = ((count / totalEvents) * 100).toFixed(1);
@@ -523,18 +783,19 @@
         item.className = 'mode-legend-item';
         item.innerHTML = `
           <div class="mode-color mode-${mode}"></div>
-          <span>${mode}: ${count} (${percentage}%)</span>
+          <div class="mode-legend-text">
+            ${mode}
+            <span class="mode-legend-count">${count}</span>
+          </div>
         `;
         modeLegend.appendChild(item);
       });
     }
 
-    // Render audit log
     function renderAuditLog() {
       const auditLog = document.getElementById('audit-log');
       auditLog.innerHTML = '';
       
-      // Collect all events
       const allEvents = [];
       data.sessions.forEach(session => {
         session.events?.forEach(event => {
@@ -546,10 +807,13 @@
         });
       });
       
-      // Sort by timestamp (newest first)
+      if (allEvents.length === 0) {
+        showEmptyState();
+        return;
+      }
+      
       allEvents.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
       
-      // Render entries
       allEvents.forEach(event => {
         const entry = document.createElement('div');
         entry.className = 'audit-entry';
@@ -559,15 +823,15 @@
           `<span class="flag-badge">⚠️ ${event.flag}</span>` : '';
         
         entry.innerHTML = `
-          <div class="audit-header">
+          <div class="audit-entry-header">
             <span class="mode-badge mode-${event.mode || 'unknown'}">${event.mode || 'unknown'}</span>
             ${flagBadge}
           </div>
           <div class="audit-summary">${event.task_summary || event.task_id || 'No summary'}</div>
           <div class="audit-meta">
-            <span>📊 ${(event.tokens_estimated || 0).toLocaleString()} tokens</span>
-            <span>📁 ${event.files_modified?.length || 0} files</span>
-            <span>🕐 ${new Date(event.timestamp).toLocaleString()}</span>
+            <span class="audit-meta-item">📊 ${(event.tokens_estimated || 0).toLocaleString()} tokens</span>
+            <span class="audit-meta-item">📁 ${event.files_modified?.length || 0} files</span>
+            <span class="audit-meta-item">🕐 ${new Date(event.timestamp).toLocaleString()}</span>
           </div>
           ${event.decision_reason ? `<div class="audit-reason">"${event.decision_reason}"</div>` : ''}
         `;
@@ -576,12 +840,10 @@
       });
     }
 
-    // Render cost chart
     function renderCostChart() {
       const costChart = document.getElementById('cost-chart');
       costChart.innerHTML = '';
       
-      // Collect task costs
       const taskCosts = [];
       data.sessions.forEach(session => {
         session.events?.forEach(event => {
@@ -592,14 +854,15 @@
         });
       });
       
-      // Sort by tokens (highest first)
-      taskCosts.sort((a, b) => b.tokens - a.tokens);
+      if (taskCosts.length === 0) {
+        costChart.innerHTML = '<div class="empty-state"><div class="empty-text">No cost data available</div></div>';
+        return;
+      }
       
-      // Take top 10
+      taskCosts.sort((a, b) => b.tokens - a.tokens);
       const topTasks = taskCosts.slice(0, 10);
       const maxTokens = Math.max(...topTasks.map(t => t.tokens), 1);
       
-      // Render bars
       topTasks.forEach(task => {
         const percentage = (task.tokens / maxTokens) * 100;
         const bar = document.createElement('div');
@@ -617,11 +880,9 @@
       });
     }
 
-    // Render prompt diff (latest audit summary)
-    function renderPromptDiff() {
-      const promptDiff = document.getElementById('prompt-diff-content');
+    function renderSummary() {
+      const summaryContent = document.getElementById('summary-content');
       
-      // Find latest event with audit_plain_english
       let latestAudit = null;
       let latestTime = 0;
       
@@ -638,16 +899,15 @@
       });
       
       if (latestAudit) {
-        promptDiff.textContent = latestAudit.audit_plain_english;
+        summaryContent.textContent = latestAudit.audit_plain_english;
       } else {
-        promptDiff.textContent = 'No audit summaries available yet.';
+        summaryContent.textContent = 'No audit summaries available yet.';
       }
     }
 
-    // Update session duration
     function updateSessionDuration() {
       if (data.sessions.length === 0) {
-        document.getElementById('session-duration').textContent = 'Session: --';
+        document.getElementById('session-duration').textContent = '--';
         return;
       }
       
@@ -660,10 +920,17 @@
       const minutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
       
       document.getElementById('session-duration').textContent = 
-        `Session: ${hours}h ${minutes}m`;
+        `${hours}h ${minutes}m`;
     }
 
-    // Listen for data updates from extension
+    function refreshData() {
+      if (typeof vscode !== 'undefined') {
+        vscode.postMessage({ command: 'getData' });
+      } else {
+        init();
+      }
+    }
+
     window.addEventListener('message', event => {
       const message = event.data;
       if (message.type === 'update' && message.data) {
@@ -672,7 +939,6 @@
       }
     });
 
-    // Initialize on load
     init();
   </script>
 </body>
