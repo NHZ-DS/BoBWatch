@@ -4,10 +4,10 @@ const path = require('path');
 // Extract metadata from markdown content
 function extractMetadata(content) {
   const taskMatch = content.match(/^#\s+(.+)$/m);
-  const contextMatch = content.match(/Context Length:\s*([\d,]+)/i);
-  const tokensMatch = content.match(/Tokens:\s*([\d,]+)/i);
-  const costMatch = content.match(/API Cost:\s*\$?([\d.]+)/i);
-  const cacheMatch = content.match(/Cache:\s*([\d,]+)/i);
+  const contextMatch = content.match(/\*\*Context Length:\*\*\s*([\d,]+)\s*tokens/i) || content.match(/Context Length:\s*([\d,]+)/i);
+  const tokensMatch = content.match(/\*\*Tokens:\*\*\s*([\d,]+)/i) || content.match(/Tokens:\s*([\d,]+)/i);
+  const costMatch = content.match(/\*\*API Cost:\*\*\s*\$?([\d.]+)/i) || content.match(/API Cost:\s*\$?([\d.]+)/i);
+  const cacheMatch = content.match(/\*\*Cache:\*\*\s*([\d,]+)\s*tokens/i) || content.match(/Cache:\s*([\d,]+)/i);
   
   return {
     task_name: taskMatch ? taskMatch[1].trim() : 'Unknown Task',

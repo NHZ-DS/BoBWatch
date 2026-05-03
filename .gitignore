@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Generated files
+.bobwatch/session-log.json
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+
+# Made with Bob
