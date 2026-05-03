@@ -109,8 +109,36 @@ function watchDirectory(dirPath, callback) {
   return watcher;
 }
 
+// Audit summary function
+function auditSummary(sessions) {
+  let total_flags = 0;
+  let most_expensive_session_id = null;
+  let most_expensive_cost = 0;
+  
+  sessions.forEach(session => {
+    // Count flags in events
+    session.events?.forEach(event => {
+      if (event.flag && event.flag !== 'none') {
+        total_flags++;
+      }
+    });
+    
+    // Track most expensive session
+    if (session.api_cost > most_expensive_cost) {
+      most_expensive_cost = session.api_cost;
+      most_expensive_session_id = session.file;
+    }
+  });
+  
+  return {
+    total_flags,
+    most_expensive_session_id,
+    most_expensive_cost
+  };
+}
+
 // Export functions
-module.exports = { parseFile, parseDirectory, generateLog, main, watchDirectory };
+module.exports = { parseFile, parseDirectory, generateLog, main, watchDirectory, auditSummary };
 
 // Run if executed directly
 if (require.main === module) {
