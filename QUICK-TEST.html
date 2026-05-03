@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BobWatch Quick Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #1e1e1e;
+      color: #cccccc;
+    }
+    h1 {
+      color: #4ec9b0;
+      border-bottom: 2px solid #4ec9b0;
+      padding-bottom: 10px;
+    }
+    .test-section {
+      background: #252526;
+      border: 1px solid #3e3e42;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .test-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #569cd6;
+      margin-bottom: 15px;
+    }
+    .status {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 4px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .status-pass {
+      background: #4ec9b0;
+      color: #1e1e1e;
+    }
+    .status-fail {
+      background: #f48771;
+      color: #1e1e1e;
+    }
+    .status-pending {
+      background: #dcdcaa;
+      color: #1e1e1e;
+    }
+    button {
+      background: #0e639c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #1177bb;
+    }
+    .result {
+      background: #1e1e1e;
+      border: 1px solid #3e3e42;
+      border-radius: 4px;
+      padding: 15px;
+      margin: 10px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .success { color: #4ec9b0; }
+    .error { color: #f48771; }
+    .info { color: #569cd6; }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 2px solid #3e3e42;
+      border-radius: 4px;
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 BobWatch Quick Test Page</h1>
+  <p>This page helps you test BobWatch components easily. Click the buttons below to run tests.</p>
+
+  <!-- Test 1: Parser -->
+  <div class="test-section">
+    <div class="test-title">Test 1: Parser (Session Reader)</div>
+    <p>Tests if the parser can read session files and generate JSON.</p>
+    <button onclick="testParser()">Run Parser Test</button>
+    <div id="parser-status" class="status status-pending">Not tested yet</div>
+    <div id="parser-result" class="result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 2: Dashboard Preview -->
+  <div class="test-section">
+    <div class="test-title">Test 2: Dashboard UI Preview</div>
+    <p>Shows the dashboard with test data. This is what you'll see in VS Code.</p>
+    <button onclick="showDashboard()">Show Dashboard</button>
+    <button onclick="hideDashboard()">Hide Dashboard</button>
+    <div id="dashboard-status" class="status status-pending">Not loaded yet</div>
+    <div id="dashboard-container" style="display:none;">
+      <iframe id="dashboard-frame" src="dashboard/test-dashboard.html"></iframe>
+    </div>
+  </div>
+
+  <!-- Test 3: API Server -->
+  <div class="test-section">
+    <div class="test-title">Test 3: API Server</div>
+    <p>Tests if the API server is running and responding.</p>
+    <button onclick="testAPI()">Test API Endpoints</button>
+    <div id="api-status" class="status status-pending">Not tested yet</div>
+    <div id="api-result" class="result" style="display:none;"></div>
+  </div>
+
+  <!-- Test 4: Session Data -->
+  <div class="test-section">
+    <div class="test-title">Test 4: Session Data</div>
+    <p>Shows the parsed session data from session-log.json.</p>
+    <button onclick="loadSessionData()">Load Session Data</button>
+    <div id="data-status" class="status status-pending">Not loaded yet</div>
+    <div id="data-result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    // Test 1: Parser
+    function testParser() {
+      const statusEl = document.getElementById('parser-status');
+      const resultEl = document.getElementById('parser-result');
+      
+      statusEl.textContent = 'Testing...';
+      statusEl.className = 'status status-pending';
+      resultEl.style.display = 'block';
+      
+      // Check if session-log.json exists
+      fetch('.bobwatch/session-log.json')
+        .then(response => {
+          if (!response.ok) throw new Error('session-log.json not found');
+          return response.json();
+        })
+        .then(data => {
+          statusEl.textContent = '✓ PASS - Parser working!';
+          statusEl.className = 'status status-pass';
+          resultEl.innerHTML = `
+            <div class="success">✓ Parser successfully generated session-log.json</div>
+            <div class="info">Sessions found: ${data.sessions.length}</div>
+            <div class="info">Total tokens: ${data.summary.total_tokens || 0}</div>
+            <div class="info">Total cost: $${data.summary.total_cost || 0}</div>
+            <div class="info">Total events: ${data.summary.total_events || 0}</div>
+          `;
+        })
+        .catch(error => {
+          statusEl.textContent = '✗ FAIL - Parser issue';
+          statusEl.className = 'status status-fail';
+          resultEl.innerHTML = `
+            <div class="error">✗ Error: ${error.message}</div>
+            <div class="info">Solution: Run 'node parser/session-reader.js' in terminal</div>
+          `;
+        });
+    }
+
+    // Test 2: Dashboard
+    function showDashboard() {
+      const statusEl = document.getElementById('dashboard-status');
+      const containerEl = document.getElementById('dashboard-container');
+      
+      containerEl.style.display = 'block';
+      statusEl.textContent = '✓ Dashboard loaded';
+      statusEl.className = 'status status-pass';
+      
+      // Reload iframe to ensure fresh load
+      document.getElementById('dashboard-frame').src = 'dashboard/test-dashboard.html';
+    }
+
+    function hideDashboard() {
+      document.getElementById('dashboard-container').style.display = 'none';
+    }
+
+    // Test 3: API Server
+    async function testAPI() {
+      const statusEl = document.getElementById('api-status');
+      const resultEl = document.getElementById('api-result');
+      
+      statusEl.textContent = 'Testing...';
+      statusEl.className = 'status status-pending';
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = '<div class="info">Testing API endpoints...</div>';
+      
+      const endpoints = [
+        { name: 'Summary', url: 'http://localhost:3000/api/summary' },
+        { name: 'Sessions', url: 'http://localhost:3000/api/sessions' },
+        { name: 'Query', url: 'http://localhost:3000/api/query?mode=code' },
+        { name: 'OpenAPI', url: 'http://localhost:3000/openapi.json' }
+      ];
+      
+      let results = [];
+      let allPass = true;
+      
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint.url);
+          if (response.ok) {
+            results.push(`<div class="success">✓ ${endpoint.name}: OK</div>`);
+          } else {
+            results.push(`<div class="error">✗ ${endpoint.name}: Failed (${response.status})</div>`);
+            allPass = false;
+          }
+        } catch (error) {
+          results.push(`<div class="error">✗ ${endpoint.name}: ${error.message}</div>`);
+          allPass = false;
+        }
+      }
+      
+      if (allPass) {
+        statusEl.textContent = '✓ PASS - API working!';
+        statusEl.className = 'status status-pass';
+      } else {
+        statusEl.textContent = '✗ FAIL - API issues';
+        statusEl.className = 'status status-fail';
+        results.push('<div class="info">Solution: Run \'node watsonx-orchestrate/api-server.js\' in terminal</div>');
+      }
+      
+      resultEl.innerHTML = results.join('');
+    }
+
+    // Test 4: Session Data
+    function loadSessionData() {
+      const statusEl = document.getElementById('data-status');
+      const resultEl = document.getElementById('data-result');
+      
+      statusEl.textContent = 'Loading...';
+      statusEl.className = 'status status-pending';
+      resultEl.style.display = 'block';
+      
+      fetch('.bobwatch/session-log.json')
+        .then(response => response.json())
+        .then(data => {
+          statusEl.textContent = '✓ Data loaded';
+          statusEl.className = 'status status-pass';
+          
+          let html = '<div class="success">✓ Session data loaded successfully</div>';
+          html += '<div class="info">Sessions:</div>';
+          
+          data.sessions.forEach((session, i) => {
+            html += `
+              <div style="margin: 10px 0; padding: 10px; background: #2d2d30; border-radius: 4px;">
+                <div><strong>${i + 1}. ${session.task_name}</strong></div>
+                <div>File: ${session.file}</div>
+                <div>Tokens: ${session.tokens}</div>
+                <div>Cost: $${session.api_cost}</div>
+                <div>Events: ${session.event_count}</div>
+              </div>
+            `;
+          });
+          
+          resultEl.innerHTML = html;
+        })
+        .catch(error => {
+          statusEl.textContent = '✗ Failed to load';
+          statusEl.className = 'status status-fail';
+          resultEl.innerHTML = `<div class="error">✗ Error: ${error.message}</div>`;
+        });
+    }
+
+    // Auto-run parser test on load
+    window.addEventListener('load', () => {
+      setTimeout(testParser, 500);
+    });
+  </script>
+</body>
+</html>
