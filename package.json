@@ -1,0 +1,43 @@
+{
+  "name": "bobwatch",
+  "displayName": "BobWatch",
+  "description": "Real-time governance dashboard for IBM Bob",
+  "version": "0.1.0",
+  "publisher": "bobwatch",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:bobwatch.dashboard"
+  ],
+  "main": "./extension/extension.js",
+  "contributes": {
+    "views": {
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "bobwatch.dashboard",
+          "name": "BobWatch"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "bobwatch.refresh",
+        "title": "BobWatch: Refresh Dashboard",
+        "icon": "$(refresh)"
+      }
+    ]
+  },
+  "scripts": {
+    "parse": "node parser/session-reader.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NHZ-DS/BoBWatch.git"
+  },
+  "license": "MIT"
+}
