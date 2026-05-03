@@ -1032,5 +1032,19 @@
     // Start loading
     loadData();
   </script>
+  
+  <!-- Advanced Features Integration -->
+  <script src="advanced-features.js"></script>
+  <script src="dashboard-enhancements.js"></script>
+  <script>
+    // Hook into existing renderDashboard to add enhanced features
+    const originalRenderDashboard = renderDashboard;
+    renderDashboard = function() {
+      originalRenderDashboard();
+      if (window.updateEnhancedDashboard && sessionData) {
+        updateEnhancedDashboard(sessionData);
+      }
+    };
+  </script>
 </body>
 </html>

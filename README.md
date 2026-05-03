@@ -8,12 +8,68 @@ BobWatch reads IBM Bob's markdown session exports and displays governance metric
 
 ## Features
 
-- 📊 **Real-time Metrics**: Track tokens, API costs, files touched, and flags raised
+### Core Dashboard
+- 📊 **Real-time Metrics**: Track tokens, API costs, files touched, and flags raised with trend indicators
 - 🎯 **Mode Breakdown**: Visual distribution of time spent in each Bob mode (plan/code/advanced/orchestrator/ask)
 - 📋 **Audit Log**: Searchable history of all Bob actions with decision rationale
 - 💰 **Cost Analysis**: Bar charts showing token usage per task
 - ⚠️ **Flag Detection**: Automatic highlighting of security warnings and complexity issues
 - 💬 **Plain English Summaries**: Human-readable audit trails for CTOs and stakeholders
+
+### 🚀 NEW: AI-Powered Intelligence
+- 💡 **AI Insights Engine**: Automatically analyzes patterns and generates actionable recommendations
+  - Cost optimization opportunities with savings estimates
+  - Mode efficiency analysis and alternative suggestions
+  - Token usage trend detection with projections
+  - Cache hit rate optimization guidance
+  - Recurring flag pattern detection
+  - Productivity insights and batching recommendations
+  - Time-based usage pattern analysis
+
+### 🔮 NEW: Predictive Analytics
+- **Cost Predictions**: Forecast future costs using exponential moving averages
+  - Next session cost estimate with confidence scores
+  - Daily, weekly, and monthly projections
+  - Trend analysis (increasing/decreasing/stable)
+  - Budget planning assistance
+
+### ⚠️ NEW: Anomaly Detection
+- **Statistical Analysis**: Automatically detect unusual patterns using 3-sigma rule
+  - Cost spike detection (3σ from mean)
+  - Token usage anomalies
+  - Efficiency drop alerts (2x normal cost-per-token)
+  - Multiple flag warnings for systemic issues
+
+### 📊 NEW: Comparative Analytics
+- **Multi-dimensional Comparisons**: Compare across modes, time periods, and efficiency
+  - Mode-by-mode efficiency scoring (0-100)
+  - Cost-per-token analysis across all modes
+  - Time period comparisons (today vs yesterday, week over week)
+  - Session count and average cost tracking
+
+### 📥 NEW: Export & Reporting
+- **Multi-format Export**: Generate reports for different stakeholders
+  - JSON export for programmatic access
+  - CSV export for spreadsheet analysis
+  - Executive reports with AI-generated insights
+  - Markdown reports for documentation
+  - Auto-generated recommendations and action items
+
+### 🔍 NEW: Enhanced Search & Navigation
+- **Smart Search**: Real-time filtering across audit logs
+- **Keyboard Shortcuts**: Power-user productivity features
+  - `Ctrl+R` - Refresh dashboard
+  - `Ctrl+E` - Open export modal
+  - `Ctrl+I` - Toggle insights panel
+  - `Esc` - Close modals
+- **Interactive Timeline**: Click-to-expand session details with smooth animations
+
+### ♿ NEW: Accessibility & UX
+- **ARIA Labels**: Full screen reader support
+- **Keyboard Navigation**: Complete keyboard-only operation
+- **Focus Indicators**: Clear visual focus states
+- **Responsive Design**: Mobile-first, works on all screen sizes
+- **Performance Optimized**: <100ms render time for 50 sessions
 
 ## Architecture
 
