@@ -1,0 +1,207 @@
+{
+  "sessions": [
+    {
+      "file": "demo_code_session.md",
+      "timestamp": "2026-05-03T13:40:10.889Z",
+      "task_name": "Parser Implementation — Code Mode",
+      "context_length": 8456,
+      "tokens": 8456,
+      "api_cost": 0.021,
+      "cache_hits": 6200,
+      "mode": "code",
+      "events": [
+        {
+          "task_id": "implement-parser",
+          "mode": "code",
+          "task_summary": "Built parser/session-reader.js to extract governance data from Bob markdown exports",
+          "files_read": [
+            "PLAN.md",
+            "bob_sessions/test.md"
+          ],
+          "files_modified": [
+            "parser/session-reader.js"
+          ],
+          "tokens_estimated": 8456,
+          "decision_reason": "Regex parsing chosen over AST parser — zero npm dependencies, handles format variations gracefully",
+          "flag": "none",
+          "audit_plain_english": "Code mode wrote the core parser. Uses regex patterns to extract token counts, API costs, and bobwatch-event JSON blocks from Bob session markdown files. Outputs structured JSON to .bobwatch/session-log.json for dashboard consumption."
+        }
+      ],
+      "event_count": 1
+    },
+    {
+      "file": "demo_orchestrator_session.md",
+      "timestamp": "2026-05-03T13:40:10.889Z",
+      "task_name": "BobWatch Build — Orchestrator Coordination",
+      "context_length": 18432,
+      "tokens": 18432,
+      "api_cost": 0.046,
+      "cache_hits": 14200,
+      "mode": "orchestrator",
+      "events": [
+        {
+          "task_id": "bobwatch-orchestrator",
+          "mode": "orchestrator",
+          "task_summary": "Orchestrated BobWatch build: delegated parser to Code mode, architecture to Plan mode, review to Ask mode",
+          "files_read": [
+            "PLAN.md",
+            "parser/session-reader.js",
+            "dashboard/index.html"
+          ],
+          "files_modified": [
+            "parser/session-reader.js",
+            "extension/extension.js"
+          ],
+          "tokens_estimated": 18432,
+          "decision_reason": "Orchestrator used to coordinate 3 agents — saved 38% tokens vs single model doing all tasks",
+          "flag": "none",
+          "audit_plain_english": "Bob spawned 3 sub-agents for BobWatch build. Code mode built the parser in 8400 tokens. Plan mode reviewed architecture gaps. Ask mode drafted the CTO summary. Total coordination overhead: 1200 tokens. Multi-agent routing saved an estimated 38% versus running all tasks through a single model."
+        }
+      ],
+      "event_count": 1
+    },
+    {
+      "file": "demo_plan_session.md",
+      "timestamp": "2026-05-03T13:40:10.890Z",
+      "task_name": "Architecture Review — Plan Mode",
+      "context_length": 5120,
+      "tokens": 5120,
+      "api_cost": 0.013,
+      "cache_hits": 3800,
+      "mode": "plan",
+      "events": [
+        {
+          "task_id": "architecture-review",
+          "mode": "plan",
+          "task_summary": "Designed BobWatch 4-component architecture: parser, dashboard, extension, watsonx API",
+          "files_read": [
+            "PLAN.md"
+          ],
+          "files_modified": [
+            "PLAN.md",
+            "AGENTS.md"
+          ],
+          "tokens_estimated": 5120,
+          "decision_reason": "Plan mode used before implementation to catch integration issues early — prevented 2 likely field name mismatches",
+          "flag": "none",
+          "audit_plain_english": "Plan mode reviewed the full BobWatch architecture. Identified that parser output field names must exactly match dashboard rendering expectations. Flagged missing error handling for empty bob_sessions directory. Both issues resolved before implementation began."
+        }
+      ],
+      "event_count": 1
+    },
+    {
+      "file": "demo_security_session.md",
+      "timestamp": "2026-05-03T13:40:10.890Z",
+      "task_name": "Security Scan — Ask Mode",
+      "context_length": 3200,
+      "tokens": 3200,
+      "api_cost": 0.008,
+      "cache_hits": 2100,
+      "mode": "ask",
+      "events": [
+        {
+          "task_id": "security-review",
+          "mode": "ask",
+          "task_summary": "Scanned BobWatch codebase for secret exposure and governance risks",
+          "files_read": [
+            "parser/session-reader.js",
+            ".bobrules"
+          ],
+          "files_modified": [],
+          "tokens_estimated": 3200,
+          "decision_reason": "Ask mode used for read-only security review — no file modification risk",
+          "flag": "secret-detected",
+          "audit_plain_english": "Ask mode performed security governance review. Detected one potential secret pattern in a test prompt (API_KEY reference). BobWatch flag system correctly identified and would have masked this before external model dispatch. System is functioning as designed for enterprise secret governance."
+        }
+      ],
+      "event_count": 1
+    },
+    {
+      "file": "session_ask_review.md",
+      "timestamp": "2026-05-03T13:40:10.891Z",
+      "task_name": "session_ask_review",
+      "context_length": 0,
+      "tokens": 102,
+      "api_cost": 0.000204,
+      "cache_hits": 0,
+      "mode": "ask",
+      "events": [],
+      "event_count": 0
+    },
+    {
+      "file": "session_code_audit.md",
+      "timestamp": "2026-05-03T13:40:10.891Z",
+      "task_name": "session_code_audit",
+      "context_length": 0,
+      "tokens": 97,
+      "api_cost": 0.000194,
+      "cache_hits": 0,
+      "mode": "code",
+      "events": [],
+      "event_count": 0
+    },
+    {
+      "file": "session_orchestrator_final.md",
+      "timestamp": "2026-05-03T13:40:10.891Z",
+      "task_name": "session_orchestrator_final",
+      "context_length": 0,
+      "tokens": 111,
+      "api_cost": 0.000222,
+      "cache_hits": 0,
+      "mode": "orchestrator",
+      "events": [],
+      "event_count": 0
+    },
+    {
+      "file": "session_plan_review.md",
+      "timestamp": "2026-05-03T13:40:10.891Z",
+      "task_name": "session_plan_review",
+      "context_length": 0,
+      "tokens": 87,
+      "api_cost": 0.000174,
+      "cache_hits": 0,
+      "mode": "plan",
+      "events": [],
+      "event_count": 0
+    },
+    {
+      "file": "test_session_001.md",
+      "timestamp": "2026-05-03T13:40:10.892Z",
+      "task_name": "Create BobWatch Technical Plan",
+      "context_length": 15234,
+      "tokens": 15234,
+      "api_cost": 0.02,
+      "cache_hits": 12450,
+      "mode": "code",
+      "events": [
+        {
+          "task_id": "create-bobwatch-plan",
+          "mode": "plan",
+          "task_summary": "Created comprehensive technical plan and implementation guide for BobWatch",
+          "files_read": [
+            "AGENTS.md",
+            "README.md",
+            ".bobrules"
+          ],
+          "files_modified": [
+            "PLAN.md",
+            "IMPLEMENTATION_GUIDE.md"
+          ],
+          "tokens_estimated": 45000,
+          "decision_reason": "Created two-document approach for clear separation of architecture and implementation",
+          "alternatives_skipped": "Single document, framework-based dashboard",
+          "flag": "none",
+          "audit_plain_english": "Created complete planning documentation for BobWatch governance dashboard with architecture specs and step-by-step implementation guide."
+        }
+      ],
+      "event_count": 1
+    }
+  ],
+  "summary": {
+    "total_sessions": 9,
+    "total_tokens": 50839,
+    "total_cost": 0.10879399999999999,
+    "total_events": 5
+  },
+  "generated_at": "2026-05-03T13:56:51.343Z"
+}

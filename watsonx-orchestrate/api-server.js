@@ -3,8 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-const PORT = 3000;
-const LOG_PATH = path.join(__dirname, '../.bobwatch/session-log.json');
+const PORT = process.env.PORT || 3000;
+const LOG_PATH = path.resolve(process.cwd(), 'data/session-log.json');
+const DASHBOARD_PATH = path.resolve(process.cwd(), 'dashboard/index.html');
 
 // CORS helper function
 function setCORSHeaders(res) {
@@ -16,7 +17,7 @@ function setCORSHeaders(res) {
 const OPENAPI_SPEC = {
   openapi: '3.0.0',
   info: { title: 'BobWatch API', version: '1.0.0', description: 'Query IBM Bob governance data' },
-  servers: [{ url: 'http://localhost:3000' }],
+  servers: [{ url: '/' }],
   paths: {
     '/api/summary': { get: { summary: 'Get summary statistics', responses: { '200': { description: 'Summary object' } } } },
     '/api/sessions': { get: { summary: 'Get all sessions', responses: { '200': { description: 'Sessions array' } } } },
@@ -26,8 +27,10 @@ const OPENAPI_SPEC = {
 
 function loadData() {
   try {
-    return JSON.parse(fs.readFileSync(LOG_PATH, 'utf8'));
+    const data = fs.readFileSync(LOG_PATH, 'utf8');
+    return JSON.parse(data);
   } catch (e) {
+    console.error(`Error loading data from ${LOG_PATH}:`, e.message);
     return { sessions: [], summary: {} };
   }
 }
@@ -43,31 +46,33 @@ http.createServer((req, res) => {
     return;
   }
   
+  // Serve dashboard at root
+  if (parsedUrl.pathname === '/' || parsedUrl.pathname === '/index.html') {
+    res.setHeader('Content-Type', 'text/html');
+    try {
+      const html = fs.readFileSync(DASHBOARD_PATH, 'utf8');
+      res.writeHead(200);
+      res.end(html);
+    } catch (e) {
+      console.error('Error loading dashboard:', e);
+      res.writeHead(500);
+      res.end('Error loading dashboard');
+    }
+    return;
+  }
+
   // Set CORS headers for all responses
   setCORSHeaders(res);
   res.setHeader('Content-Type', 'application/json');
 
   // Health endpoint
   if (parsedUrl.pathname === '/api/health' && req.method === 'GET') {
-    const sessionLogPath = path.join(__dirname, '..', '.bobwatch', 'session-log.json');
-    let sessionCount = 0;
-    let lastUpdated = null;
-    
-    if (fs.existsSync(sessionLogPath)) {
-      try {
-        const data = JSON.parse(fs.readFileSync(sessionLogPath, 'utf8'));
-        sessionCount = data.sessions?.length || 0;
-        lastUpdated = data.generated_at || null;
-      } catch (error) {
-        console.error('Error reading session-log.json:', error);
-      }
-    }
-    
+    const data = loadData();
     res.writeHead(200);
     res.end(JSON.stringify({
       status: 'ok',
-      sessions: sessionCount,
-      last_updated: lastUpdated
+      sessions: data.sessions?.length || 0,
+      last_updated: data.generated_at || null
     }));
     return;
   }
@@ -96,8 +101,8 @@ http.createServer((req, res) => {
     res.end(JSON.stringify({ error: 'Not found' }));
   }
 }).listen(PORT, () => {
-  console.log(`BobWatch API running on http://localhost:${PORT}`);
-  console.log(`OpenAPI spec: http://localhost:${PORT}/openapi.json`);
+  console.log(`BobWatch API running on port ${PORT}`);
 });
+
 
 // Made with Bob

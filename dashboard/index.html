@@ -705,8 +705,8 @@
       // Priority 2: Local API server (already running on :3000)
       try {
         const [sessionsRes, summaryRes] = await Promise.all([
-          fetch('http://localhost:3000/api/sessions'),
-          fetch('http://localhost:3000/api/summary')
+          fetch('/api/sessions'),
+          fetch('/api/summary')
         ]);
         if (sessionsRes.ok && summaryRes.ok) {
           const sessions = await sessionsRes.json();

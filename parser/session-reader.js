@@ -208,7 +208,7 @@ Reviewed BobWatch for secret exposure risks. Found .env reference in test prompt
 }
 
 // Main function: parse and write log
-async function main(sessionsDir = './bob_sessions', outputPath = './.bobwatch/session-log.json') {
+async function main(sessionsDir = './bob_sessions', outputPath = './data/session-log.json') {
   // Check if we need to create demo files
   const files = await fs.readdir(sessionsDir);
   const mdFiles = files.filter(f => f.endsWith('.md'));
